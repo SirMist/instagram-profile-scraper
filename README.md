@@ -1,198 +1,156 @@
-[Instagram Profile Scraper](https://apify.com/instaprism/instagram-profile-scraper?fpr=data)
+[Instagram Profile Scraper](https://apify.com/logical_scrapers/instagram-profile-scraper?fpr=data)
 
-Get instant profile information from any public Instagram account. Retrieve follower counts, following counts, bio, posts count, verification status, business category, and more. Perfect for bulk profile lookups and competitor tracking.
-
-## No Login Required
-
-**Your Instagram account stays safe.** This Actor:
-
-- Does NOT require your Instagram login or cookies
-- Uses our own infrastructure to fetch data
-- Zero risk of account suspension for you
-- Works with any public Instagram profile
-
-Unlike browser extensions or tools that use your account, we handle all scraping server-side. Your credentials are never needed.
-
-## Important: Processing Time
-
-**This Actor returns results almost instantly.** Unlike our other scrapers that extract lists of users or posts, the Profile Scraper uses a fast lookup endpoint.
-
-| Profiles | Expected Time |
-| --- | --- |
-| 1-10 profiles | 5-15 seconds |
-| 50 profiles | 30-60 seconds |
-| 100+ profiles | 1-3 minutes |
-
-**Why is this so fast?**
-Profile information (follower count, bio, etc.) is retrieved via a lightweight API call. No need to paginate through lists of data.
-
-## What You Get
-
-- **User ID** - Unique Instagram identifier
-- **Username** - Instagram handle
-- **Full Name** - Display name
-- **Biography** - Profile bio text
-- **Followers Count** - Number of followers
-- **Following Count** - Number of accounts they follow
-- **Posts Count** - Total number of posts
-- **Verification Status** - Blue checkmark (yes/no)
-- **Private Status** - Whether account is private
-- **Business Status** - Whether it's a business account
-- **Category** - Business category (if applicable)
-- **External URL** - Website link in bio
-- **Profile Picture URL** - HD profile image
-
-## Input
-
-| Parameter | Type | Required | Default | Description |
-| --- | --- | --- | --- | --- |
-| `usernames` | Array | Yes | - | List of Instagram usernames (without the @ symbol) |
-
-### Example Input
-
-```
-{
-    "usernames": [
-        "nike",
-        "adidas",
-        "puma",
-        "reebok"
-    ]
-}
-```
-
-## Output
-
-| Field | Type | Example | Description |
-| --- | --- | --- | --- |
-| `username` | String | "nike" | Instagram username |
-| `userId` | String | "13460080" | Unique Instagram user ID |
-| `fullName` | String | "Nike" | User's display name |
-| `biography` | String | "Just Do It." | Profile bio text |
-| `followers` | Integer | 306000000 | Number of followers |
-| `following` | Integer | 150 | Number of accounts followed |
-| `postsCount` | Integer | 1250 | Total number of posts |
-| `isPrivate` | Boolean | false | True if account is private |
-| `isVerified` | Boolean | true | True if has blue checkmark |
-| `isBusiness` | Boolean | true | True if business account |
-| `category` | String | "Sportswear Brand" | Business category |
-| `externalUrl` | String | "[https://nike.com](https://nike.com)" | Website link in bio |
-| `profilePicUrl` | String | "[https://scontent](https://scontent)..." | HD profile picture URL |
-| `scrapedAt` | String | "2026-01-15T10:30:00.000Z" | Timestamp of extraction |
-
-### Example Output
-
-```
-[
-    {
-        "username": "nike",
-        "userId": "13460080",
-        "fullName": "Nike",
-        "biography": "Just Do It. #Nike",
-        "followers": 306000000,
-        "following": 150,
-        "postsCount": 1250,
-        "isPrivate": false,
-        "isVerified": true,
-        "isBusiness": true,
-        "category": "Sportswear Brand",
-        "externalUrl": "https://nike.com",
-        "profilePicUrl": "https://scontent-cdg4-1.cdninstagram.com/v/t51.2885-19/...",
-        "scrapedAt": "2026-01-15T10:30:00.000Z"
-    },
-    {
-        "username": "adidas",
-        "userId": "12345678",
-        "fullName": "adidas",
-        "biography": "Through sport, we have the power to change lives.",
-        "followers": 275000000,
-        "following": 200,
-        "postsCount": 980,
-        "isPrivate": false,
-        "isVerified": true,
-        "isBusiness": true,
-        "category": "Sportswear Brand",
-        "externalUrl": "https://adidas.com",
-        "profilePicUrl": "https://scontent-cdg4-1.cdninstagram.com/v/t51.2885-19/...",
-        "scrapedAt": "2026-01-15T10:30:01.000Z"
-    }
-]
-```
-
-## Use Cases
-
-- **Influencer Vetting** - Quickly verify follower counts and engagement potential before partnerships.
-- **Competitor Tracking** - Monitor competitor growth over time with scheduled runs.
-- **Lead Enrichment** - Add Instagram data to your existing lead database.
-- **Research & Analysis** - Gather profile data for market research projects.
-- **Account Monitoring** - Track changes in your own or client accounts.
-- **Bulk Lookups** - Process hundreds of profiles efficiently.
-
-## Integrations
-
-Export your data to:
-
-- **Google Sheets** - Direct integration, auto-sync results
-- **Zapier / Make (Integromat)** - Trigger workflows when scrape completes
-- **Webhooks** - Get real-time notifications
-- **API** - Programmatic access via Apify API
-- **Download** - JSON / CSV / Excel files
-
-## FAQ
-
-### Why is this Actor so much faster than others?
-
-Profile data (follower count, bio, etc.) comes from a single API endpoint per profile. Other scrapers need to paginate through lists of followers/posts, which takes time.
-
-### Can I scrape private accounts?
-
-Partially. You'll get basic info (username, full name, profile pic, private status = true) but not follower/following counts or bio for private accounts.
-
-### How accurate are the follower counts?
-
-Follower counts are retrieved in real-time from Instagram. They reflect the current count at the moment of scraping.
-
-### Can I track changes over time?
-
-Yes! Set up scheduled runs via Apify to scrape the same profiles daily/weekly. Compare results to track growth.
-
-### What happens if a username doesn't exist?
-
-Invalid usernames will be skipped and noted in the logs. Other valid usernames will still be processed.
-
-### Is there a limit on how many profiles I can scrape?
-
-No hard limit, but very large batches (1000+) should be split across multiple runs for reliability.
-
-### Do I need an Instagram account?
-
-No. This Actor scrapes public data without requiring any Instagram credentials.
-
-### How often can I run this?
-
-As often as you need. Perfect for real-time lookups or scheduled monitoring.
-
-## Keywords
-
-Instagram profile scraper, Instagram profile data, bulk Instagram lookup, Instagram follower count, Instagram bio scraper, Instagram account info, Instagram competitor tracking, Instagram influencer verification, Instagram profile API, Instagram data extraction
-
-## Need Custom Solutions?
-
-Looking for **custom scraping**, **higher limits**, or **dedicated infrastructure**?
-
-📩 **Contact us:**
-
-- **Telegram:** [@taskforceorange](https://t.me/taskforceorange)
-- **Website:** [social-swarm.com](https://social-swarm.com)
-
-We offer:
-
-- Custom actor development
-- Enterprise-grade scraping solutions
-- Dedicated proxy infrastructure
-- White-label integrations
-- Priority support
+# Instagram Profile Scraper
 
 ---
 
-*Built with ❤️ by the InstaPrism team*
+![banner](https://images.apifyusercontent.com/ioXP7_K9_t3aTwlcoZRo5D0qT9TcXSCUNDrRgnLY_Kw/w:1800/cb:1/aHR0cHM6Ly9pLmliYi5jby9oMWNzNEZIZy9TY3JlZW5zaG90LTIwMjYtMDMtMzAtYXQtMTEtMjctNTktUE0ucG5n.webp)
+
+---
+
+An [Apify](https://apify.com/logical_scrapers/instagram-profile-scraper) actor that extracts comprehensive user profile information from Instagram accounts. Process multiple usernames and extract detailed profile data including contact information, social media links, business details, and more.
+
+## Features
+
+- **No authentication required** — scrapes public profiles without cookies
+- **Contact extraction** — emails and phone numbers from bios + business info
+- **Social media link detection** — identifies links to other platforms
+- **Built-in retries** — automatic retry with session rotation on failures
+- **Proxy support** — residential proxy configuration for reliable scraping
+- **Multi-username support** — process multiple profiles in a single run
+
+## Input Configuration
+
+```
+{
+    "usernames": ["bigfootvlog", "instagram", "cristiano"],
+    "proxyConfiguration": {
+        "useApifyProxy": true,
+        "apifyProxyGroups": ["RESIDENTIAL"]
+    }
+}
+```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `usernames` | array | List of Instagram usernames to scrape (with or without @) |
+| `proxyConfiguration` | object | Apify proxy configuration (residential recommended) |
+
+## Output Format
+
+```
+{
+    "name": "Bigfoot Vlog",
+    "username": "bigfootvlog",
+    "id": "1234567890",
+    "category": "Digital Creator",
+    "businessCategory": "Creator",
+    "overallCategory": "Creator",
+    "categoryEnum": "CREATOR",
+    "bio": "Digital creator | contact@bigfootvlog.com",
+    "bioLinks": [{ "title": "", "url": "https://bigfootvlog.com", "linkType": "external" }],
+    "homepage": "https://bigfootvlog.com",
+    "followers": 50000,
+    "follows": 1000,
+    "facebookId": "17841400000000000",
+    "isPrivate": false,
+    "isVerified": true,
+    "isBusinessAccount": true,
+    "isProfessionalAccount": true,
+    "hasClips": true,
+    "hasGuides": false,
+    "hasChannel": false,
+    "highlightReelCount": 5,
+    "pinnedChannelsListCount": 0,
+    "pronouns": [],
+    "businessContactMethod": "CALL",
+    "profileImage": "https://scontent.cdninstagram.com/...",
+    "profileImageStandard": "https://scontent.cdninstagram.com/...",
+    "videoCount": 150,
+    "videos": [],
+    "imageCount": 300,
+    "images": [],
+    "savedCount": 0,
+    "collectionsCount": 0,
+    "relatedProfiles": ["similar_user1", "similar_user2"],
+    "biographyWithEntities": {},
+    "businessEmail": "contact@bigfootvlog.com",
+    "businessPhone": "+1-555-123-4567",
+    "allEmails": ["contact@bigfootvlog.com"],
+    "allPhoneNumbers": ["+1-555-123-4567"],
+    "socialLinks": ["https://twitter.com/bigfootvlog"],
+    "websiteLinks": ["https://bigfootvlog.com"],
+    "hasContacts": true,
+    "success": true
+}
+```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| **Profile** |  |  |
+| `name` | string | Full name / display name |
+| `username` | string | Instagram username |
+| `id` | string | Unique Instagram ID |
+| `bio` | string | Biography text |
+| `bioLinks` | array | Links from bio (title, url, linkType) |
+| `homepage` | string | External website URL |
+| `profileImage` | string | High-quality profile picture URL |
+| `profileImageStandard` | string | Standard profile picture URL |
+| `pronouns` | array | User pronouns |
+| **Statistics** |  |  |
+| `followers` | number | Follower count |
+| `follows` | number | Following count |
+| `videoCount` | number | Number of videos/reels |
+| `imageCount` | number | Number of posts |
+| `savedCount` | number | Number of saved posts |
+| `collectionsCount` | number | Number of collections |
+| `highlightReelCount` | number | Number of story highlights |
+| **Account Status** |  |  |
+| `isPrivate` | boolean | Whether account is private |
+| `isVerified` | boolean | Whether account is verified |
+| `isBusinessAccount` | boolean | Whether it's a business account |
+| `isProfessionalAccount` | boolean | Whether it's a professional account |
+| `hasClips` | boolean | Whether account has reels |
+| `hasGuides` | boolean | Whether account has guides |
+| `hasChannel` | boolean | Whether account has a channel |
+| **Business Info** |  |  |
+| `category` | string | Primary category |
+| `businessCategory` | string | Business category |
+| `overallCategory` | string | Overall category |
+| `categoryEnum` | string | Category enum value |
+| `businessContactMethod` | string | Preferred contact method |
+| `facebookId` | string | Linked Facebook ID |
+| **Contact Info** |  |  |
+| `businessEmail` | string | Business email from profile |
+| `businessPhone` | string | Business phone from profile |
+| `allEmails` | array | All emails (extracted from bio + business) |
+| `allPhoneNumbers` | array | All phone numbers (extracted from bio + business) |
+| `socialLinks` | array | Social media profile links found in bio |
+| `websiteLinks` | array | Non-social website links found in bio |
+| `hasContacts` | boolean | Whether profile has any contact info |
+| **Media** |  |  |
+| `videos` | array | Recent videos with metadata (id, shortcode, views, likes, etc.) |
+| `images` | array | Recent posts with metadata (id, shortcode, likes, etc.) |
+| `relatedProfiles` | array | Related/suggested usernames |
+| `biographyWithEntities` | object | Bio with tagged entities |
+| **Meta** |  |  |
+| `success` | boolean | Whether scraping was successful |
+
+## Author
+
+Created by [Goldmine](https://apify.com/logical_scrapers)
+
+## Support
+
+For issues and feature requests, please use the Issues tab or reach out to **[coredev.dan@gmail.com](mailto:coredev.dan@gmail.com)**
+
+Don't forget to star this actor if you find it useful!
+
+## Other useful and related actors by Goldmine
+
+- [Instagram Posts with Comments Scraper](https://apify.com/logical_scrapers/instagram-post-comments-scraper)
+- [X (Twitter) Profile Scraper](https://apify.com/logical_scrapers/x-twitter-user-profile-tweets-scraper)
+
+---
+
+instagram scraper, lead generation, automation, how to scrape instagram profile, instagram emails extraction, instagram data extraction, instagram data scraping, instagram contact extraction, apify actor
