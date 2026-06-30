@@ -1,177 +1,106 @@
-[Instagram Profile Scraper](https://apify.com/cryptosignals/instagram-profile-scraper?fpr=data)
+[Instagram Profile Scraper](https://apify.com/zerobreak/instagram-profile-scraper?fpr=data)
 
-# Instagram Profile & Posts Scraper 2026 — No API Key
+# Instagram Profile Scraper: Extract Public Instagram Profile Data in Bulk
 
-Extract complete Instagram profile data and recent posts from any public account. No Facebook Developer account, no Graph API approval, no login required.
+Instagram Profile Scraper pulls public data from any Instagram account and returns structured JSON. Give it a list of usernames and get back follower counts, following counts, bio text, post totals, verification status, external links, business email, and profile picture URLs. No Instagram login required, no browser needed.
 
-> ⭐ **Free to try** — if this actor saves you time, [leave a quick review](https://apify.com/cryptosignals/instagram-profile-scraper/reviews). It takes 30 seconds and helps other researchers find it.
+## Use cases
 
----
+- **Influencer research**: compare follower counts, post totals, and bio links across dozens of accounts without opening Instagram
+- **Lead generation**: collect business emails and external URLs from creator or brand profiles in one run
+- **Competitor tracking**: monitor follower and post counts for a set of competitors on a recurring schedule
+- **Social media audits**: pull profile data to cross-reference Instagram presence with other marketing metrics
+- **Recruitment and partnerships**: find contact info and audience size for potential brand partners or content collaborators
+- **Market research**: build Instagram profile datasets for specific industries or content categories
 
-## What It Extracts
+## Input
 
-Pass one or more Instagram usernames. Get back structured JSON in seconds:
-
-**Profile data**
-
-- Username, full name, biography, website URL
-- Follower count, following count, total posts count
-- Verified badge status, business account flag, category
-- HD profile picture URL
-- Profile URL, internal user ID
-
-**Recent posts** (up to 50 per profile)
-
-- Caption text with embedded hashtags and mentions
-- Like count, comment count, video view count
-- Post type (image, video, carousel)
-- Media URL, post URL, timestamp
-
----
-
-## ⚠️ Session Cookie for Accurate Counts
-
-Without a session cookie, Instagram caps what unauthenticated requests return — follower counts and post counts may come back as 0 or 1. **Add your `sessionid` cookie value in the `sessionCookie` field to get accurate numbers.**
-
-The rest of the data (bio, name, verification, posts) is available without it.
-
----
-
-## Input Parameters
-
-```
-{
-  "username": "natgeo, nike, tesla",
-  "action": "profile",
-  "maxPosts": 24,
-  "sessionCookie": ""
-}
-```
-
-| Field | Type | Default | Description |
+| Parameter | Type | Default | Description |
 | --- | --- | --- | --- |
-| `username` | string | required | Instagram handle(s), comma-separated. Accepts `@handle`, full URL, or plain username. |
-| `action` | string | `"profile"` | `"profile"` returns profile + recent posts. `"posts"` returns posts only. |
-| `maxPosts` | integer | `24` | Max recent posts per profile. Range: 1–50. |
-| `sessionCookie` | string | `""` | Your Instagram `sessionid` cookie value. Optional but recommended for full data. |
+| `username` | string |  | Single Instagram username to scrape (no @ symbol) |
+| `usernames` | array |  | List of usernames for bulk Instagram scraping (one per line) |
+| `maxItems` | integer | 100 | Maximum profiles to process per run (up to 1,000) |
+| `timeoutSecs` | integer | 300 | Overall run timeout in seconds |
+| `requestTimeoutSecs` | integer | 30 | Per-request timeout in seconds |
+| `proxyConfiguration` | object | Datacenter (Anywhere) | Proxy type and location for requests. Supports Datacenter, Residential, Special, and custom proxies. Optional. |
 
-**Accepted username formats:**
-
-- `natgeo`
-- `@nike`
-- `https://www.instagram.com/tesla/`
-- `natgeo, nike, tesla` (comma-separated list)
-
----
-
-## Example Output
+### Example input
 
 ```
 {
-  "username": "natgeo",
-  "fullName": "National Geographic",
-  "biography": "Experience the world through the eyes of National Geographic photographers.",
-  "followerCount": 281500000,
-  "followingCount": 132,
-  "postCount": 29847,
-  "isVerified": true,
-  "isPrivate": false,
-  "category": "Media",
-  "externalUrl": "https://natgeo.com",
-  "profilePicUrl": "https://instagram.fcdn.net/v/t51.2885-19/...jpg",
-  "profileUrl": "https://www.instagram.com/natgeo/",
-  "userId": "787132",
-  "scrapedAt": "2026-04-23T09:15:42.000Z",
-  "recentPosts": [
-    {
-      "postId": "3398271049123456789",
-      "shortcode": "C6xYzAbC1234",
-      "type": "GraphImage",
-      "caption": "A lion surveys the plains at dawn in Kenya's Masai Mara. #wildlife #kenya #africa",
-      "likeCount": 284932,
-      "commentCount": 1842,
-      "videoViewCount": 0,
-      "isVideo": false,
-      "imageUrl": "https://instagram.fcdn.net/v/t51.2885-15/...jpg",
-      "postUrl": "https://www.instagram.com/p/C6xYzAbC1234/",
-      "timestamp": "2026-04-12T08:30:00.000Z"
-    },
-    {
-      "postId": "3398271049123456790",
-      "shortcode": "C6xYzAbC5678",
-      "type": "GraphVideo",
-      "caption": "Deep inside the Amazon — a species no camera has captured before. #nature #discovery",
-      "likeCount": 193041,
-      "commentCount": 2310,
-      "videoViewCount": 4812000,
-      "isVideo": true,
-      "imageUrl": "https://instagram.fcdn.net/v/t51.2885-15/...jpg",
-      "postUrl": "https://www.instagram.com/p/C6xYzAbC5678/",
-      "timestamp": "2026-04-09T14:22:10.000Z"
-    }
-  ]
+    "usernames": ["instagram", "apple", "natgeo"],
+    "maxItems": 100,
+    "proxyConfiguration": { "useApifyProxy": true }
 }
 ```
 
----
+## What data does this actor extract?
 
-## Who Uses This
+Each profile entry in the dataset looks like this:
 
-**Influencer marketing teams** — vet creators before signing contracts. Compare follower counts, post frequency, and engagement rates across dozens of accounts in one run instead of opening each profile manually.
+```
+{
+    "username": "instagram",
+    "fullName": "Instagram",
+    "biography": "Discover what's new. Find what you love.",
+    "followersCount": 697000000,
+    "followingCount": 511,
+    "postsCount": 7419,
+    "profilePicUrl": "https://example.cdn.instagram.com/v/profile.jpg",
+    "isVerified": true,
+    "isPrivate": false,
+    "externalUrl": "",
+    "profileUrl": "https://www.instagram.com/instagram/",
+    "userId": "25025320",
+    "category": "Internet company",
+    "businessEmail": "",
+    "scrapedAt": "2025-03-12T10:30:00.000000+00:00"
+}
+```
 
-**Brand managers** — monitor competitor accounts weekly. Catch changes to bios, track follower milestones, watch which content formats drive the most likes.
+| Field | Type | Description |
+| --- | --- | --- |
+| `username` | string | Instagram username |
+| `fullName` | string | Full display name shown on the profile |
+| `biography` | string | Bio text from the profile |
+| `followersCount` | integer | Number of followers |
+| `followingCount` | integer | Number of accounts followed |
+| `postsCount` | integer | Total posts on the profile |
+| `profilePicUrl` | string | Profile picture URL (HD when available) |
+| `isVerified` | boolean | Whether the account has a verified badge |
+| `isPrivate` | boolean | Whether the account is private |
+| `externalUrl` | string | External link in the bio |
+| `profileUrl` | string | Full Instagram profile URL |
+| `userId` | string | Instagram internal user ID |
+| `category` | string | Account category (e.g. Brand, Musician, Public Figure) |
+| `businessEmail` | string | Business contact email if publicly available |
+| `scrapedAt` | string | ISO timestamp of when the data was collected |
 
-**Marketing agencies** — build client reports with real Instagram metrics. Pull profiles for entire client rosters automatically instead of copying numbers by hand.
+## How it works
 
-**Market researchers & academics** — analyze posting patterns, engagement benchmarks, and content trends across accounts in a niche. Export to CSV for analysis in Python or R.
+1. Reads the list of Instagram usernames from input and removes duplicates
+2. For each username, calls Instagram's internal profile API with realistic browser headers
+3. Parses the JSON response and extracts all available public profile fields
+4. Pushes the result to the Apify dataset
+5. Rotates proxies between requests to stay under rate limits
 
-**Lead generation** — build lists of active creators filtered by follower thresholds, post frequency, and category.
+## Integrations
 
----
+Connect Instagram Profile Scraper with other apps and services using [Apify integrations](https://apify.com/integrations). You can integrate with Make, Zapier, Slack, Airbyte, GitHub, Google Sheets, Google Drive, and many more. You can also use [webhooks](https://docs.apify.com/integrations/webhooks) to trigger actions whenever scraping results are ready.
 
-## Why Not Use the Official Instagram Graph API?
+## FAQ
 
-Instagram's Graph API requires a Facebook Developer account, app review, business verification, and only returns data for accounts you manage or that have explicitly granted permissions. For third-party research on public profiles, it is effectively unusable.
+**Can this actor scrape private Instagram profiles?**
+No. Private profiles don't expose public data. The actor returns an error entry for private accounts and moves on to the next username.
 
-This actor works on any **public** profile instantly — no approvals, no waiting, no account dependencies.
+**Do I need an Instagram account to run this actor?**
+No. It scrapes publicly visible profile data without login credentials.
 
----
+**How many Instagram profiles can I scrape per run?**
+Default is 100 profiles per run. Raise it to 1,000 via `maxItems`. For larger batches, split into multiple runs or schedule recurring runs.
 
-## Integrations & Export
+**Why use a proxy?**
+Instagram rate-limits repeated requests from the same IP. Rotating through Apify's Residential or Datacenter proxies lets you scrape more profiles without hitting blocks.
 
-Results export to **JSON**, **CSV**, or **Excel** directly from the Apify console. Connect to:
-
-- **Google Sheets** — sync actor output automatically
-- **Webhooks** — push results to your own backend on run completion
-- **Zapier / Make** — trigger downstream workflows
-- **Apify API** — call from your own code using the Apify Python or Node.js client
-
-Schedule runs hourly, daily, or weekly to track accounts over time.
-
----
-
-## Limits
-
-- Public profiles only — private accounts are skipped
-- Maximum 50 posts per profile per run
-- Add a session cookie for accurate follower/post counts
-
----
-
-## 💰 Pricing
-
-This actor uses **Pay-Per-Result (PPE)** pricing — **$0.005 per profile scraped**. You only pay for successful results, not for platform compute time.
-
-- 100 profiles = $0.50
-- 1,000 profiles = $5.00
-- 10,000 profiles = $50.00
-
-Free tier users can run the actor to test before committing to a paid plan.
-
----
-
-## ⭐ Leave a Review
-
-If this actor saved you time, **please take 30 seconds to leave a review**: 👉 [https://apify.com/cryptosignals/instagram-profile-scraper/reviews](https://apify.com/cryptosignals/instagram-profile-scraper/reviews)
-
-Reviews are the primary way this actor reaches new users and gets maintained and updated.
+**What happens if a username doesn't exist?**
+The actor pushes an error entry with the username and a short error message, then continues processing the rest of the list.
